@@ -1,21 +1,21 @@
 {
-  "name": "to-day",
-  "version": "1.0.0",
-  "description": "todo today app",
-  "main": "index.js",
-  "author": "daniella taylor-brown - @ssshhhdaniella",
-  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "start": "tsc && node dist/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore"
   },
   "devDependencies": {
-    "@types/express": "^4.17.2",
-    "@types/node": "^13.7.1",
-    "tslint": "^6.0.0",
-    "typescript": "^3.7.5"
+    "prettier": "^3.1.1",
+    "turbo": "latest"
   },
-  "dependencies": {
-    "express": "^4.17.1"
+  "packageManager": "yarn@1.22.19",
+  "engines": {
+    "node": ">=18"
   }
 }
