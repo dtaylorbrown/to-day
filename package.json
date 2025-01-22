@@ -1,9 +1,12 @@
 {
-  "name": "my-turborepo",
+  "name": "to-day",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "dev:docs": "turbo dev --filter=docs...",
+    "dev:web": "turbo dev --filter=web... --filter=api...",
+    "dev:app": "turbo dev --filter=mobile... --filter=api...",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
