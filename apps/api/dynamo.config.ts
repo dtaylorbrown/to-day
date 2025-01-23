@@ -1,7 +1,7 @@
 const {
-  DynamoDB,
   DynamoDBClient,
   ScanCommand,
+  GetItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 require("dotenv").config();
 
@@ -36,7 +36,7 @@ const addOrUpdateHabit = async (habit: Habit) => {
     Item: habit,
   };
 
-  return await dynamoClient.put(params).promise();
+  return await dynamoClient.updateItem(params).promise();
 };
 
 const getHabitById = async (habitsId: string) => {
@@ -47,7 +47,8 @@ const getHabitById = async (habitsId: string) => {
     },
   };
 
-  return await dynamoClient.getItem(params).promise();
+  const command = new GetItemCommand(params);
+  return await dynamoClient.send(command);
 };
 
 const deleteHabitById = async (habitsId: string) => {
@@ -61,7 +62,7 @@ const deleteHabitById = async (habitsId: string) => {
   return await dynamoClient.deleteItem(params).promise();
 };
 
-module.exports = {
+export {
   dynamoClient,
   getHabits,
   addOrUpdateHabit,
