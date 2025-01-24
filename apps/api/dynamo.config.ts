@@ -3,6 +3,7 @@ const {
   ScanCommand,
   GetItemCommand,
   UpdateItemCommand,
+  DeleteItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 import { marshall } from "@aws-sdk/util-dynamodb";
 require("dotenv").config();
@@ -86,7 +87,8 @@ const deleteHabitById = async (habitsId: string) => {
     },
   };
 
-  return await dynamoClient.deleteItem(params).promise();
+  const command = new DeleteItemCommand(params);
+  return await dynamoClient.send(command);
 };
 
 export {
