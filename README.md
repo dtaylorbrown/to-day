@@ -9,6 +9,7 @@ This Turborepo includes the following packages/apps:
 - `docs`: a [Next.js](https://nextjs.org/) app
 - `web`: another [Next.js](https://nextjs.org/) app
 - `mobile`: a [Expo](https://expo.dev/) app
+- `api`: a fairly simple [Express](https://expressjs.com/) app
 - `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
 - `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
@@ -30,6 +31,20 @@ To develop all apps and packages, run the following command:
 ```
 cd my-turborepo
 pnpm dev
+```
+
+It is a lot more useful to filter the applications you want to work on instead of running them all for no reason:
+
+Run just web/api
+
+```
+pnpm dev:web
+```
+
+Run just app/api
+
+```
+pnpm dev:app
 ```
 
 ### Build
