@@ -38,7 +38,7 @@ const addOrUpdateHabit = async (habit: Habit) => {
   // remove habitsId from marshalledHabit
   delete marshalledHabit.habitsId;
 
-  // TODO - Refactor this to util
+  // TODO - Refactor this to util ?!
   let UpdateExpression = "SET";
   let ExpressionAttributeNames = {} as any;
   let ExpressionAttributeValues = {} as any;
