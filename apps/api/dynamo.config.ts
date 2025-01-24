@@ -2,7 +2,9 @@ const {
   DynamoDBClient,
   ScanCommand,
   GetItemCommand,
+  UpdateItemCommand,
 } = require("@aws-sdk/client-dynamodb");
+import { marshall } from "@aws-sdk/util-dynamodb";
 require("dotenv").config();
 
 type Habit = {
@@ -31,12 +33,37 @@ const getHabits = async () => {
 };
 
 const addOrUpdateHabit = async (habit: Habit) => {
+  const marshalledHabit = marshall(habit);
+
+  // remove habitsId from marshalledHabit
+  delete marshalledHabit.habitsId;
+
+  // TODO - Refactor this to util
+  let UpdateExpression = "SET";
+  let ExpressionAttributeNames = {} as any;
+  let ExpressionAttributeValues = {} as any;
+  for (const property in marshalledHabit) {
+    UpdateExpression += ` #${property} = :${property},`;
+    ExpressionAttributeNames["#" + property] = property;
+    ExpressionAttributeValues[":" + property] =
+      marshalledHabit[property as keyof Habit];
+  }
+
+  UpdateExpression = UpdateExpression.slice(0, -1);
+
   const params = {
     TableName: TABLE_NAME,
-    Item: habit,
+    Key: {
+      habitsId: { S: habit.habitsId },
+    },
+    UpdateExpression,
+    ExpressionAttributeNames,
+    ExpressionAttributeValues,
+    ReturnValues: "ALL_NEW",
   };
 
-  return await dynamoClient.updateItem(params).promise();
+  const command = new UpdateItemCommand(params);
+  return await dynamoClient.send(command);
 };
 
 const getHabitById = async (habitsId: string) => {
